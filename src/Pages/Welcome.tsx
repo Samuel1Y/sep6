@@ -1,16 +1,30 @@
 import { Box, Card, Typography } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DefaultButton } from '../Components/DefaultButton'
 import { useAuth } from '../Contexts/AuthContext'
 import { MovieCard } from '../Components/MovieCard'
 import { useNavigate } from 'react-router-dom'
 import { ReviewCard } from '../Components/ReviewCard'
+import { getMovieById, Movie } from '../db/db';
 
 
 function Welcome() {
   const [isDisabled, setIsDisabled] = React.useState(false)
   const { logout, currentUser } = useAuth()
   const navigate = useNavigate()
+  const [movie, setMovie] = useState<Movie | null>(null);
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        const movieData = await getMovieById(54724);
+        setMovie(movieData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchMovie();
+  }, []);
 
   useEffect(() => {
     if(!currentUser) {
@@ -83,7 +97,7 @@ function Welcome() {
       picture='https://prod.cdn.bbaws.net/TDC_Blockbuster_-_Production/853/64/4280011185-po-reg-medium_orig-1679979680767.jpg'
       />
       <MovieCard 
-      title='Avatar The Way of Water'
+      title={movie?.title || 'No title'}
       description='Jake Sully lives with his newfound family formed on the extrasolar moon Pandora.
        Once a familiar threat returns to finish what was previously started,
       Jake must work with Neytiri and the army of the Navi race to protect their home.'
