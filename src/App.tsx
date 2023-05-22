@@ -1,13 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Outlet } from 'react-router-dom';
-import { Box } from '@mui/material';
-import { AuthProvider } from './Contexts/AuthContext';
+import { Header } from './Components/Header';
 
 function App() {
   return (
-    <div className="App" >
+    <div className="App"
+    style={{
+      display:'flex',
+      flexDirection:'column',
+      justifyContent:'center',
+      alignItems:'center',
+      height:'100%',
+      width:'100%',
+      overflow:'hidden'
+    }}>
+      <Header />
       <Outlet />
     </div>
   );
