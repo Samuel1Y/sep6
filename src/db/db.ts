@@ -1,6 +1,6 @@
 import axios from 'axios';
 //connection to API on cloud 
-const API_BASE_URL = 'http://sep6-383419.ew.r.appspot.com';
+const API_BASE_URL = 'https://sep6-383419.ew.r.appspot.com';
 export interface MovieWithDetails {
   id: number;
   title: string; 
