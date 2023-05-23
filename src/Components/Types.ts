@@ -27,3 +27,9 @@ export type ButtonProps = {
     reviewRating: string,
     reviewText: string,
   }
+
+  export type DropdownMenuProps = {
+  }
+
+  export type HeaderProps = {
+  }

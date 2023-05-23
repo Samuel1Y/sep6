@@ -41,20 +41,15 @@ function SignIn() {
   }
 
   return (
-    <Box
-    sx={{
-      display:'flex',
-      justifyContent:'center',
-      alignItems:'center',
-      height:'100vh'
-    }}>
       <Card
       sx={{
         display:'flex',
-        minHeight:'25rem',
-        minWidth:'20rem',
+        height:'auto',
+        width:'20rem',
         flexDirection:'column',
         padding:'1rem',
+        margin:'0.5rem',
+        justifySelf:'center',
         justifyContent:'space-between'
 
       }}>
@@ -103,7 +98,6 @@ function SignIn() {
       disabled={isDisabled}
       />
       </Card>
-   </Box>
   )
 }
 

@@ -33,7 +33,6 @@ function Welcome() {
       setIsDisabled(false)
     }
     else setIsDisabled(true)
-    console.log(currentUser)
 },[currentUser])
 
   const handleLogOut = () => {
@@ -43,6 +42,7 @@ function Welcome() {
   }
 
   return (
+    <>
     <Box
     sx={{
       display:'flex',
@@ -83,6 +83,10 @@ function Welcome() {
         <DefaultButton
           label='Sign Up'
           onClick={() => navigate('/sign-up')}
+        />
+        <DefaultButton
+          label='User View'
+          onClick={() => navigate('/username')}
         />
       </Box>
       }
@@ -132,7 +136,7 @@ function Welcome() {
       />
       </Box>
    </Box>
-   
+   </>
   )
 }
 
