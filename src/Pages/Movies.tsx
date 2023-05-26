@@ -3,18 +3,45 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MovieCard } from '../Components/MovieCard'
 import { MoviesData } from '../Mock/MoviesData'
+import { MovieWithouthDetails, getMovies } from '../db/db'
+import { useAuth } from '../Contexts/AuthContext'
 
 
-function Movies() {
+function Movies() { //need to fix layout
 
   const [input, setInput] = React.useState('')
-  const [filteredList, setFilteredList] = React.useState(MoviesData) //get array of movies here
+  const [filteredList, setFilteredList] = React.useState<MovieWithouthDetails[] | any>(null)
+  const [movies, setMovies] = React.useState<MovieWithouthDetails[] | null>(null)
 
   const navigate = useNavigate()
+  const { currentUser } = useAuth()
+  
+  useEffect(() => {
+    if(currentUser)
+    {
+      const fetchMovies = async () => {
+        try {
+          const moviesData = await getMovies();
+          setFilteredList(moviesData)
+          setMovies(moviesData)
+        } catch (error) {
+          console.error(error);
+          setFilteredList(MoviesData)
+        }
+      };
+      fetchMovies()
+    }
+    else
+    {
+      navigate('/')
+    }
+}, []);
 
   useEffect(() => {
-    setFilteredList(MoviesData.filter(({ title }) => title.toLowerCase().includes(input.toLowerCase())))
-},[filteredList, input])
+    if(filteredList){
+      setFilteredList(filteredList.filter(({ title }) => title.toLowerCase().includes(input.toLowerCase())))
+    }
+},[filteredList, input, movies])
 
   return (
     <>
@@ -40,21 +67,23 @@ function Movies() {
             md:'0fr 0fr 0fr 0fr',
             sm:'0fr 0fr'
         },
-        height:'100%',
-        width:'90%',
-        maxHeight:'38rem',
+        gap:'2rem',
+        height:'auto',
+        width:'100%',
         alignContent:'center',
         justifyContent:'center',
+        overflow:'auto',
     }}>
-        {filteredList.map((movie, index) => {
+        {filteredList && filteredList.length > 0 &&
+        filteredList?.map((movie, index) => {
               return (
                 <MovieCard
                   key={index}
+                  id={movie.id}
                   title={movie.title}
-                  description={movie.description}
-                  picture={movie.picture}
-                  onClick={() => navigate(`${movie.title}`)} 
-                  //use ID here, then in MoviesView use the ID from url to get data of the movie
+                  description={movie.overview}
+                  picture={movie.image}
+                  onClick={() => navigate(`${movie.id}`)} 
                 />
               )
             })}

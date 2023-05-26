@@ -1,5 +1,5 @@
 import { Box, Card, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { DefaultButton } from '../Components/DefaultButton'
 import { useAuth } from '../Contexts/AuthContext'
 import { DefaultText, Title } from '../Components/Text'
@@ -12,10 +12,16 @@ function MakeReview() {
   const [errorMessage, setErrorMessage] = React.useState('')
   const [isDisabled, setIsDisabled] = React.useState(false)
 
-  const { signUp } = useAuth()
+  const { currentUser } = useAuth()
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
+  useEffect(() => {
+    if(!currentUser)
+    {
+      navigate('/')
+    }
+}, []);
 
 
   const handleMakeReview = () => {
@@ -37,13 +43,7 @@ function MakeReview() {
   ]
 
   return (
-    <Box
-    sx={{
-      display:'flex',
-      justifyContent:'center',
-      alignItems:'center',
-      height:'100vh'
-    }}>
+
       <Card
       sx={{
         display:'flex',
@@ -52,6 +52,7 @@ function MakeReview() {
         minWidth:'20rem',
         flexDirection:'column',
         padding:'1rem',
+        margin:'0.5rem',
         justifyContent:'space-between'
 
       }}>
@@ -93,7 +94,7 @@ function MakeReview() {
             })}
             </Select>
         <TextField
-        label='review'
+        label='Review'
         type='text'
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setReview(e.target.value)}
         multiline
@@ -135,7 +136,6 @@ function MakeReview() {
         />
       </Box>
       </Card>
-   </Box>
   )
 }
 

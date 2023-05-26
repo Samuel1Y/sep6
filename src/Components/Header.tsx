@@ -10,7 +10,7 @@ import { useAuth } from '../Contexts/AuthContext'
 export const Header: React.FC<HeaderProps> = ({
 }) => {
     const navigate = useNavigate()
-    const { currentUser } = useAuth()
+    const { currentUser, logout } = useAuth()
 
     return (
     <Box
@@ -27,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
         backgroundColor:'gray'
     }}>
         <img
-            src="https://png.pngtree.com/element_our/png/20181113/clapperboard-film-logo-icon-design-template-vector-isolated-png_236642.jpg"
+        src="logo.jpg"
             alt="logo"
             height="auto"
             width="auto"
@@ -38,14 +38,14 @@ export const Header: React.FC<HeaderProps> = ({
                 maxWidth: '100%',
             }}
         />
-        <DefaultButton label='Home' onClick={() => navigate('')}
+        <DefaultButton label='Home' disabled={currentUser === null} onClick={() => navigate('/home')}
         sx={{
             backgroundColor:'gray',
             ':hover': {
                 backgroundColor:'darkgray',
               },
         }} />
-        <DefaultButton label='Movies' onClick={() => navigate('/movies')}
+        <DefaultButton label='Movies' disabled={currentUser === null} onClick={() => navigate('/movies')}
         sx={{
             backgroundColor:'gray',
             ':hover': {
@@ -53,10 +53,27 @@ export const Header: React.FC<HeaderProps> = ({
               },
         }} />
         {currentUser && <>
-        <Subtitle text={currentUser.displayName || 'username'} />
+        <Box
+        sx={{
+            display:'flex',
+            flexDirection:'column',
+            marginTop:'2rem',
+            justifyContent:'center'
+        }}>
+        <Subtitle text={currentUser.displayName || 'username'} sx={{lineHeight:'1rem'}} />
+        <DefaultButton
+        label='Log out'
+        onClick={() => logout()}
+        sx={{
+            scale:'0.5',
+            margin:'0',
+            padding:'0',
+            marginBottom:'1rem',
+            }} />
+        </Box>
         <img
-            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-            alt="logo"
+            src="profile_picture.png"
+            alt={currentUser.displayName || 'profile picture'}
             height="auto"
             width="auto"
             onClick={() => navigate('/username')} //change to logged in user username

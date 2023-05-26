@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { User, createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { User, createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
 import { auth } from '../firebase';
 
 interface AuthContextProps {
     currentUser: User | null;
     error: string;
-    signUp: (email: string, password: string) => Promise<string>;
+    signUp: (username: string, email: string, password: string) => Promise<string>;
     signIn: (email: string, password: string) => Promise<string>;
     logout: () => void;
     forgotPassword: (email: string) => void;
@@ -31,10 +31,15 @@ export function AuthProvider( {children}: AuthProviderProps) {
         return currUser
     },[])
 
-    function signUp(email: string, password: string) {
+    function signUp(username: string, email: string, password: string) {
         return createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in
+            if(currentUser)
+            {
+              updateProfile(currentUser, {
+              displayName: username
+            })}
             return ''
           })
           .catch((error) => {

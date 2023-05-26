@@ -7,7 +7,7 @@ import { DefaultButton } from './DefaultButton'
 import { useNavigate } from 'react-router-dom'
 
 export const ReviewCard: React.FC<ReviewCardProps> = ({
-    //add movie id
+    movieId,
     username,
     profilePic,
     reviewRating,
@@ -20,30 +20,31 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
 return (
     <>
     <Card
-        onClick={() => setOpen(true)}
         sx={{
-            cursor:'pointer',
             display:'flex',
             flexDirection:'column',
             height:'auto',
             width:'auto',
-            minHeight:'10rem',
+            minHeight:'15rem',
             minWidth:'30rem',
-            maxHeight:'15rem',
+            maxHeight:'20rem',
             maxWidth:'30rem',
             margin:'0.5rem',
             padding:'0.5rem',
             alignText:'center',
-            justifyContent:'center'
+            justifyContent:'center',
+            border:(parseInt(reviewRating) === 10) ? '2px solid gold' : 'unset'
         }}>
         <Box
+        onClick={() => setOpen(true)}
         sx={{
+            cursor:'pointer',
             flex:2,
             display:'grid',
             gridTemplateColumns:'1fr 5fr 3fr',
             textAlign:'start',
             borderBottom:'2px solid black',
-            marginBottom:'1rem'
+            marginBottom:'1rem',
         }}>
             <Box sx={{
                 flex:1,
@@ -73,6 +74,35 @@ return (
             overflow:'auto'
         }}>
             <DefaultText text={reviewText} sx={{textAlign:'left'}}/>
+        </Box>
+        <Box
+        sx={{
+            flex:1,
+            display:'flex',
+            maxWidth:'fill-content',
+            minHeight:'min-content',
+            overflow:'hidden',
+            justifyContent:'end',
+            alignItems:'center',
+            paddingTop:'0.4rem',
+        }}>
+            <img
+            src="like_button.png"
+            alt="like"
+            height="auto"
+            width="auto"
+            onClick={() => console.log('like')}
+            style={{ 
+                cursor:'pointer',
+                alignSelf:'center',
+                justifySelf:'center',
+                maxHeight: '2rem',
+                maxWidth: '2rem',
+                padding:'0.5rem',
+            }}
+            />
+            <DefaultText text={'488'} //replace with number of likes
+            />
         </Box>
     </Card>
     <Modal
@@ -107,8 +137,8 @@ return (
             minWidth:'5rem'
         }}>
             <img
-                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                alt="Title"
+                src="profile_picture.png"
+                alt={username}
                 height="auto"
                 width="auto"
                 style={{ 
