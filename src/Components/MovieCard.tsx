@@ -3,9 +3,10 @@ import Button from '@mui/material/Button'
 
 import { MovieCardProps } from './Types'
 import { Box, Card } from '@mui/material'
-import { DefaultText, Subtitle } from './Text'
+import { DefaultText } from './Text'
 
 export const MovieCard: React.FC<MovieCardProps> = ({
+    id,
     title,
     description,
     picture,

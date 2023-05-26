@@ -1,17 +1,44 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Subtitle, Title } from '../Components/Text'
 import { DefaultButton } from '../Components/DefaultButton'
 import { ReviewsData } from '../Mock/ReviewsData'
 import { ReviewCard } from '../Components/ReviewCard'
+import { MovieCard } from '../Components/MovieCard'
+import { MovieWithouthDetails } from '../db/db'
+import { MoviesData } from '../Mock/MoviesData'
+import { useAuth } from '../Contexts/AuthContext'
 
 
 function ProfileView() {
 
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
 
+    const [favoriteMovies, setFavoriteMovies] = React.useState<MovieWithouthDetails[] | null>(null)
+
+    const navigate = useNavigate()
+    const { pathname } = useLocation()
+    const { currentUser } = useAuth()
+
+    useEffect(() => {
+      if(currentUser)
+      {
+        /* get user profile
+        const fetchUser = async () => {
+          try {
+            const userData = await getUserByUsername(parseInt(pathname.split('/')[1]));
+            setUser(userData);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        fetchUser();*/
+      }
+      else
+      {
+        navigate('/')
+      }
+}, []);
 
   return (
     <Box
@@ -37,8 +64,8 @@ function ProfileView() {
             minWidth:'15rem'
         }}>
             <img
-                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                alt="Title"
+                src="profile_picture.png"
+                alt={currentUser?.displayName || 'profile picture'}
                 height="auto"
                 width="auto"
                 style={{ 
@@ -67,6 +94,28 @@ function ProfileView() {
             label='Follow User'
             onClick={() => console.log('follow')}
         />
+        <Box
+        sx={{
+            display:'flex',
+            flexDirection:'row',
+            borderBottom:'3px solid black',
+            borderTop:'3px solid black',
+            overflow:'auto'
+        }}>
+        {MoviesData &&
+        MoviesData?.map((movie, index) => { //replace mock with real data
+              return (
+                <MovieCard
+                  key={index}
+                  id={5}
+                  title={movie.title}
+                  description={movie.overview}
+                  picture={movie.image}
+                  onClick={() => navigate(`${5}`)} 
+                />
+              )
+            })}
+        </Box>
         <Box className="Reviews"
         sx={{
             display:'grid',
@@ -74,7 +123,6 @@ function ProfileView() {
                 lg:'1fr 1fr',
                 md:'1fr',
             },
-            borderTop:'3px solid black'
         }}>
             {ReviewsData.filter(({ username }) => username.toLowerCase().match(pathname.split('/')[1]))
             .map((review, index) => {
