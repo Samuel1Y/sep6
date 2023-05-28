@@ -33,6 +33,13 @@ export interface MovieWithouthDetails {
   vote_count: number;
 }
 
+export interface CreateProfile {
+  age: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+}
+
 export async function getMovieById(id: number): Promise<MovieWithDetails> {
   const response = await axios.get(`${API_BASE_URL}/movie/${id}`);
   try{
@@ -52,3 +59,28 @@ export async function getMovies(): Promise<MovieWithouthDetails[]> {
       throw new Error('Error fetching movie');
   }
 }
+
+export async function searchMovies(movie_title: string): Promise<MovieWithouthDetails[]> {
+  const response = await axios.get(`${API_BASE_URL}/searchmovie/${movie_title}`);
+  try{
+    const data = await response.data;
+    return data;
+  } catch (eror) {
+      throw new Error('Error fetching movie');
+  }
+}
+
+
+export async function createProfile(profileData: CreateProfile): Promise<string>  {
+  const response = await axios.post('/api/profile', profileData);
+  try {
+    if (response.status === 201) {
+      return 'Profile created';
+    } else {
+      return 'Profile creation failed';
+    }
+  } catch (error) {
+    return ('An error occurred' + error);
+  }
+};
+ 
