@@ -15,6 +15,7 @@ export type ButtonProps = {
   }
 
   export type MovieCardProps = {
+    id: number,
     title: string,
     description?: string,
     picture?: string,
@@ -22,8 +23,15 @@ export type ButtonProps = {
   }
 
   export type ReviewCardProps = {
+    movieId: number,
     username: string,
     profilePic?: string,
     reviewRating: string,
     reviewText: string,
+  }
+
+  export type DropdownMenuProps = {
+  }
+
+  export type HeaderProps = {
   }

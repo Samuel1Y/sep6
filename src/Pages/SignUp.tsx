@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 function SignUp() {
   const [email, setEmail] = React.useState('')
+  const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [passwordConfirm, setPasswordConfirm] = React.useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
@@ -19,11 +20,11 @@ function SignUp() {
 
   const handleSignUp = () => {
     setIsDisabled(true)
-    if(email !== '' && password !== '' && passwordConfirm !== '')
+    if(username !== '' && email !== '' && password !== '' && passwordConfirm !== '')
     {
       if(password === passwordConfirm)
       {
-        signUp(email, password)
+        signUp(username, email, password)
         .then((message) => {
           setErrorMessage(message)
           navigate('/')
@@ -49,20 +50,15 @@ function SignUp() {
   }
 
   return (
-    <Box
-    sx={{
-      display:'flex',
-      justifyContent:'center',
-      alignItems:'center',
-      height:'100vh'
-    }}>
       <Card
       sx={{
         display:'flex',
-        minHeight:'25rem',
-        minWidth:'20rem',
+        height:'auto',
+        width:'20rem',
         flexDirection:'column',
         padding:'1rem',
+        margin:'0.5rem',
+        justifySelf:'center',
         justifyContent:'space-between'
 
       }}>
@@ -77,6 +73,14 @@ function SignUp() {
           margin:'1rem',
           gap:'1rem'
         }}>
+          <TextField
+        label='Username'
+        type='text'
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername (e.target.value)}
+      sx={{
+        margin:'0.5rem'
+      }}
+    />
         <TextField
         label='Email'
         type='email'
@@ -94,7 +98,7 @@ function SignUp() {
       }}
     />
     <TextField
-        label='Password Again '
+        label='Confirm Password'
         type='password'
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirm(e.target.value)}
       sx={{
@@ -118,7 +122,6 @@ function SignUp() {
       disabled={isDisabled}
       />
       </Card>
-   </Box>
   )
 }
 
