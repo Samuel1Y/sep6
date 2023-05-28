@@ -74,7 +74,7 @@ export interface Review {
   rating: number;
 }
 //*********************profiles***********
-export async function createProfile(profileData: CreateProfile): Promise<string>  {
+export async function createUser(profileData: CreateProfile): Promise<string>  {
   const response = await axios.post(`${API_BASE_URL}/profile`, profileData);
   try {
     if (response.status === 201) {
@@ -97,7 +97,7 @@ export async function getProfiles(): Promise<Profile[]> {
   }
 }
 
-export async function getProfileByUsername(username: string): Promise<Profile> {
+export async function getUserByUsername(username: string): Promise<Profile> {
   const response = await axios.get(`${API_BASE_URL}/profile/${username}`);
   try{
     const data = await response.data;
@@ -107,7 +107,7 @@ export async function getProfileByUsername(username: string): Promise<Profile> {
   }
 }
 
-export async function likeProfile(likeProfile: ProfileLikeData): Promise<string>  {
+export async function followUser(likeProfile: ProfileLikeData): Promise<string>  {
   const response = await axios.post(`${API_BASE_URL}/profile/like`, likeProfile);
   try {
     if (response.status === 201) {
@@ -130,7 +130,7 @@ export async function getLikedProfiles(username: string): Promise<Profile[]> {
   }
 }
 
-export async function getLikedMovies(username: string): Promise<MovieWithouthDetails[]> {
+export async function getFavoriteListByUsername(username: string): Promise<MovieWithouthDetails[]> {
   const response = await axios.get(`${API_BASE_URL}/movies/${username}/liked`);
   try{
     const data = await response.data;
@@ -140,7 +140,7 @@ export async function getLikedMovies(username: string): Promise<MovieWithouthDet
   }
 }
 
-export async function likeMovie(likeMovie: MovieLikeData): Promise<string>  {
+export async function addMovieToFavoriteList(likeMovie: MovieLikeData): Promise<string>  {
   const response = await axios.post(`${API_BASE_URL}/movie/like`, likeMovie);
   try {
     if (response.status === 201) {
@@ -153,7 +153,7 @@ export async function likeMovie(likeMovie: MovieLikeData): Promise<string>  {
   }
 }
 //************reviews**********************/
-export async function createReview(reviewData: CreateReview): Promise<string>  {
+export async function makeReview(reviewData: CreateReview): Promise<string>  {
   const response = await axios.post(`${API_BASE_URL}/review`, reviewData);
   try {
     if (response.status === 201) {
