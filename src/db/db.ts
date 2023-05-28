@@ -33,12 +33,166 @@ export interface MovieWithouthDetails {
   vote_count: number;
 }
 
+export interface CreateProfile {
+  age: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+}
+
+export interface Profile {
+  first_name: string;
+  last_name: string;
+  username: string;
+  created_on: string;
+  age: number;
+  likedMovies: number[]
+  likedProfiles: string[]
+}
+
+export interface ProfileLikeData {
+  current_username: string;
+  liked_username: string;
+}
+
+export interface MovieLikeData {
+  likedMovie: number;
+  username: string;
+}
+export interface CreateReview {
+  movie_id: number;
+  username: string;
+  description: string;
+  rating: number;
+}
+
+export interface Review {
+  movie_id: number;
+  username: string;
+  description: string;
+  created_on: string;
+  rating: number;
+}
+//*********************profiles***********
+export async function createProfile(profileData: CreateProfile): Promise<string>  {
+  const response = await axios.post(`${API_BASE_URL}/profile`, profileData);
+  try {
+    if (response.status === 201) {
+      return 'Profile created';
+    } else {
+      return response.statusText;
+    }
+  } catch (error) {
+    return ('An error occurred' + error);
+  }
+}
+
+export async function getProfiles(): Promise<Profile[]> {
+  const response = await axios.get(`${API_BASE_URL}/profiles`);
+  try{
+    const data = await response.data;
+    return data;
+  } catch (eror) {
+      throw new Error('Error fetching profiles');
+  }
+}
+
+export async function getProfileByUsername(username: string): Promise<Profile> {
+  const response = await axios.get(`${API_BASE_URL}/profile/${username}`);
+  try{
+    const data = await response.data;
+    return data;
+  } catch (eror) {
+      throw new Error('Error fetching profile');
+  }
+}
+
+export async function likeProfile(likeProfile: ProfileLikeData): Promise<string>  {
+  const response = await axios.post(`${API_BASE_URL}/profile/like`, likeProfile);
+  try {
+    if (response.status === 201) {
+      return 'Profile liked';
+    } else {
+      return response.statusText;
+    }
+  } catch (error) {
+    return ('An error occurred' + error);
+  }
+}
+
+export async function getLikedProfiles(username: string): Promise<Profile[]> {
+  const response = await axios.get(`${API_BASE_URL}/profiles/${username}/liked`);
+  try{
+    const data = await response.data;
+    return data;
+  } catch (error) {
+      throw new Error('Error fetching profiles');
+  }
+}
+
+export async function getLikedMovies(username: string): Promise<MovieWithouthDetails[]> {
+  const response = await axios.get(`${API_BASE_URL}/movies/${username}/liked`);
+  try{
+    const data = await response.data;
+    return data;
+  } catch (error) {
+      throw new Error('Error fetching movies');
+  }
+}
+
+export async function likeMovie(likeMovie: MovieLikeData): Promise<string>  {
+  const response = await axios.post(`${API_BASE_URL}/movie/like`, likeMovie);
+  try {
+    if (response.status === 201) {
+      return 'Movie liked';
+    } else {
+      return response.statusText;
+    }
+  } catch (error) {
+    return ('An error occurred' + error);
+  }
+}
+//************reviews**********************/
+export async function createReview(reviewData: CreateReview): Promise<string>  {
+  const response = await axios.post(`${API_BASE_URL}/review`, reviewData);
+  try {
+    if (response.status === 201) {
+      return 'Review created';
+    } else {
+      return response.statusText;
+    }
+  } catch (error) {
+    return ('An error occurred' + error);
+  }
+}
+
+export async function getReviewsByMovie(id: number): Promise<Review[]> {
+  const response = await axios.get(`${API_BASE_URL}/reviews/movie/${id}`);
+  try{
+    const data = await response.data;
+    return data;
+  } catch (error) {
+      throw new Error('Error fetching movies');
+  }
+}
+
+export async function getReviewsOfFollowers(username: string): Promise<Review[]> {
+  const response = await axios.get(`${API_BASE_URL}/reviews/username/${username}`);
+  try{
+    const data = await response.data;
+    return data;
+  } catch (error) {
+      throw new Error('Error fetching movies');
+  }
+}
+//************movies**********************/
+
 export async function getMovieById(id: number): Promise<MovieWithDetails> {
   const response = await axios.get(`${API_BASE_URL}/movie/${id}`);
   try{
     const data = await response.data;
     return data;
-  } catch (eror) {
+  } catch (error) {
       throw new Error('Error fetching movie');
   }
 }
@@ -48,7 +202,18 @@ export async function getMovies(): Promise<MovieWithouthDetails[]> {
   try{
     const data = await response.data;
     return data;
-  } catch (eror) {
-      throw new Error('Error fetching movie');
+  } catch (error) {
+      throw new Error('Error fetching movies');
   }
 }
+
+export async function searchMovies(movie_title: string): Promise<MovieWithouthDetails[]> {
+  const response = await axios.get(`${API_BASE_URL}/searchmovie/${movie_title}`);
+  try{
+    const data = await response.data;
+    return data;
+  } catch (error) {
+      throw new Error('Error fetching movie');
+  }
+};
+ 
