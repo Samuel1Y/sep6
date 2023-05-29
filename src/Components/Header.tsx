@@ -12,6 +12,10 @@ export const Header: React.FC<HeaderProps> = ({
     const navigate = useNavigate()
     const { currentUser, logout } = useAuth()
 
+    const handleLogOut = () => {
+        logout()
+        navigate('/')
+      }
     return (
     <Box
     className="Header"
@@ -63,7 +67,7 @@ export const Header: React.FC<HeaderProps> = ({
         <Subtitle text={currentUser.displayName || 'username'} sx={{lineHeight:'1rem'}} />
         <DefaultButton
         label='Log out'
-        onClick={() => logout()}
+        onClick={() => handleLogOut()}
         sx={{
             scale:'0.5',
             margin:'0',
@@ -76,7 +80,7 @@ export const Header: React.FC<HeaderProps> = ({
             alt={currentUser.displayName || 'profile picture'}
             height="auto"
             width="auto"
-            onClick={() => navigate('/'+currentUser.displayName)} //change to logged in user username
+            onClick={() => navigate(`/${currentUser.displayName}`)} //change to logged in user username
             style={{ 
                 cursor:'pointer',
                 alignSelf:'center',

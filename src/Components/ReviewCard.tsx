@@ -101,8 +101,6 @@ return (
                 padding:'0.5rem',
             }}
             />
-            <DefaultText text={'488'} //replace with number of likes
-            />
         </Box>
     </Card>
     <Modal
@@ -148,7 +146,7 @@ return (
                     maxWidth: '100%',
                     }}
                 />
-                <DefaultText text='Movie Reviewer' sx={{textAlign:'center', fontSize:'1rem', padding:'0.2rem'}} />
+                <DefaultText text='username' sx={{textAlign:'center', fontSize:'1rem', padding:'0.2rem'}} />
         </Box>
         <Box
         sx={{
@@ -158,9 +156,7 @@ return (
             paddingTop:'0'
         }}>
                 <DefaultText
-                text='Movie Reviewer lives with his newfound family formed on the extrasolar moon Pandora.
-                        Once a familiar threat returns to finish what was previously started, 
-                        Jake must work with Neytiri and the army of the Navi race to protect their home.'
+                text='description'
         sx={{textAlign:'start'}} />
         </Box>
         </Box>
