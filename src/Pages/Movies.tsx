@@ -93,7 +93,7 @@ function Movies() {
                   title={movie.title}
                   description={movie.overview}
                   picture={movie.image}
-                  onClick={() => navigate(`${movie.id}`)} 
+                  onClick={() => navigate(`${movie.id}`)}
                 />
               )
             })}

@@ -61,13 +61,15 @@ return (
                 width:'3rem'
             }}>
                 <img
-                    src={profilePic}
+                    src="profile_picture.png"
                     alt={username}
-                    height="100%"
-                    width="100%"
+                    height="auto"
+                    width="auto"
                     style={{ 
                         alignSelf:'center',
                         justifySelf:'center',
+                        maxHeight:'3rem',
+                        maxWidth:'3rem'
                     }}
                 />
             </Box>
@@ -94,21 +96,6 @@ return (
             alignItems:'center',
             paddingTop:'0.4rem',
         }}>
-            <img
-            src="profile_picture.png"
-            alt="like"
-            height="auto"
-            width="auto"
-            onClick={() => console.log('like')}
-            style={{ 
-                cursor:'pointer',
-                alignSelf:'center',
-                justifySelf:'center',
-                maxHeight: '2rem',
-                maxWidth: '2rem',
-                padding:'0.5rem',
-            }}
-            />
         </Box>
     </Card>
     <Modal
@@ -150,8 +137,8 @@ return (
                 style={{ 
                     alignSelf:'center',
                     justifySelf:'center',
-                    maxHeight: '100%',
-                    maxWidth: '100%',
+                    maxHeight: '5rem',
+                    maxWidth: '5rem',
                     }}
                 />
                 <DefaultText text='username' sx={{textAlign:'center', fontSize:'1rem', padding:'0.2rem'}} />
@@ -184,7 +171,7 @@ return (
         />
         <DefaultButton
             label='Go to profile page'
-            onClick={() => navigate(`/${username}`)} //change to username of review creator
+            onClick={() => navigate(`/${username}`)}
             sx={{
                 fontSize:'1rem'
             }}

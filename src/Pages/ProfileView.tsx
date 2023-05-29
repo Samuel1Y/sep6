@@ -6,7 +6,7 @@ import { DefaultButton } from '../Components/DefaultButton'
 import { ReviewsData } from '../Mock/ReviewsData'
 import { ReviewCard } from '../Components/ReviewCard'
 import { MovieCard } from '../Components/MovieCard'
-import { MovieWithouthDetails, Profile, followUser, getFavoriteListByUsername, getUserByUsername, getMyAverageReviewRating } from '../db/db'
+import { MovieWithouthDetails, Profile, followUser, getFavoriteListByUsername, getUserByUsername, getMyAverageReviewRating, Review, getMyReviews } from '../db/db'
 import { useAuth } from '../Contexts/AuthContext'
 
 
@@ -14,6 +14,7 @@ function ProfileView() {
 
 
     const [favoriteMovies, setFavoriteMovies] = React.useState<MovieWithouthDetails[] | null>(null)
+    const [reviews, setReviews] = React.useState<Review[] | null>(null)
     const [user, setUser] = React.useState<Profile | null>(null)
     const [avarageRating, setAvarageRating] = React.useState<string | null>(null)
 
@@ -33,11 +34,12 @@ function ProfileView() {
           try {
             const userData = await getUserByUsername(pathname.split('/')[1]);
             const favoriteMoviesData = await getFavoriteListByUsername(pathname.split('/')[1]);
-            //need reviewsByUsername
-            const avarageRatingRaw = await getMyAverageReviewRating(currentUser?.displayName || 'username');
+            const reviewsData = await getMyReviews(pathname.split('/')[1])
+            const avarageRatingRaw = await getMyAverageReviewRating(pathname.split('/')[1] || 'username');
             setAvarageRating(avarageRatingRaw);
             setUser(userData);
             setFavoriteMovies(favoriteMoviesData)
+            setReviews(reviewsData)
           } catch (error) {
             console.error(error);
           }
@@ -94,7 +96,7 @@ function ProfileView() {
             padding:'1rem'
         }}>
                 <Subtitle
-                text={`age:/${user?.age}, avarage rating:/${avarageRating}`}
+                text={`age:${user?.age}, avarage rating:${avarageRating}`}
         sx={{textAlign:'start'}} />
         </Box>
         </Box>
@@ -119,7 +121,7 @@ function ProfileView() {
                   title={movie.title}
                   description={movie.overview}
                   picture={movie.image}
-                  onClick={() => navigate(`${movie.id}`)} 
+                  onClick={() => navigate(`/movies/${movie.id}`)} 
                 />
               )
             })}
@@ -132,16 +134,15 @@ function ProfileView() {
                 md:'1fr',
             },
         }}>
-            {ReviewsData.filter(({ username }) => username.toLowerCase().match(pathname.split('/')[1]))
-            .map((review, index) => {
+            {reviews && 
+            reviews.map((review, index) => {
               return (
                 <ReviewCard
                   key={index}
-                  movieId={review.movieId}
+                  movieId={review.movie_id}
                   username={review.username}
-                  profilePic= {review.profilePic}
-                  reviewRating={review.reviewRating}
-                  reviewText={review.reviewText}
+                  reviewRating={String(review.rating)}
+                  reviewText={review.description}
                 />
               )
             })}
