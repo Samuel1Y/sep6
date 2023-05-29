@@ -6,7 +6,7 @@ import { DefaultButton } from '../Components/DefaultButton'
 import { ReviewsData } from '../Mock/ReviewsData'
 import { ReviewCard } from '../Components/ReviewCard'
 import { MovieCard } from '../Components/MovieCard'
-import { MovieWithouthDetails, Profile, followUser, getFavoriteListByUsername, getUserByUsername } from '../db/db'
+import { MovieWithouthDetails, Profile, followUser, getFavoriteListByUsername, getUserByUsername, getMyAverageReviewRating } from '../db/db'
 import { useAuth } from '../Contexts/AuthContext'
 
 
@@ -15,6 +15,7 @@ function ProfileView() {
 
     const [favoriteMovies, setFavoriteMovies] = React.useState<MovieWithouthDetails[] | null>(null)
     const [user, setUser] = React.useState<Profile | null>(null)
+    const [avarageRating, setAvarageRating] = React.useState<string | null>(null)
 
 
     const navigate = useNavigate()
@@ -33,8 +34,9 @@ function ProfileView() {
             const userData = await getUserByUsername(pathname.split('/')[1]);
             const favoriteMoviesData = await getFavoriteListByUsername(pathname.split('/')[1]);
             //need reviewsByUsername
-            setUser(userData)
-            console.log(user?.username)
+            const avarageRatingRaw = await getMyAverageReviewRating(currentUser?.displayName || 'username');
+            setAvarageRating(avarageRatingRaw);
+            setUser(userData);
             setFavoriteMovies(favoriteMoviesData)
           } catch (error) {
             console.error(error);
@@ -92,7 +94,7 @@ function ProfileView() {
             padding:'1rem'
         }}>
                 <Subtitle
-                text={`age:${user?.age}`}
+                text={`age:/${user?.age}, avarage rating:/${avarageRating}`}
         sx={{textAlign:'start'}} />
         </Box>
         </Box>
