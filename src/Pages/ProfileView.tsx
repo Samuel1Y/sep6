@@ -45,7 +45,7 @@ function ProfileView() {
       {
         navigate('/')
       }
-}, []);
+}, [currentUser, navigate, pathname]);
 
   return (
     <Box
@@ -82,7 +82,7 @@ function ProfileView() {
                     maxWidth: '10rem',
                     }}
                 />
-                <Title text={pathname.split('/')[1]} sx={{textAlign:'center'}} />
+                <Title text={currentUser?.displayName || 'username'} sx={{textAlign:'center'}} />
         </Box>
         <Box
         sx={{
@@ -91,7 +91,7 @@ function ProfileView() {
             padding:'1rem'
         }}>
                 <Subtitle
-                text='dskds'
+                text={`age:/${user?.age}`}
         sx={{textAlign:'start'}} />
         </Box>
         </Box>

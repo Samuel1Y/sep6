@@ -35,18 +35,18 @@ export function AuthProvider( {children}: AuthProviderProps) {
         return createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in
-            if(currentUser)
-            {
-              updateProfile(currentUser, {
-              displayName: username
-            })}
+            if (userCredential.user) {
+              updateProfile(userCredential.user, {
+                  displayName: username
+              })
+          }
             return ''
           })
           .catch((error) => {
             const errorCode = error.code;
             console.log(error.message);
             return error.message
-          });
+          })
     }
 
     function signIn(email: string, password: string) {
