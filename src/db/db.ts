@@ -100,7 +100,7 @@ export async function getProfiles(): Promise<Profile[]> {
 export async function getUserByUsername(username: string): Promise<Profile> {
   const response = await axios.get(`${API_BASE_URL}/profile/${username}`);
   try{
-    const data = await response.data;
+    const data = await response.data[0];
     return data;
   } catch (eror) {
       throw new Error('Error fetching profile');
@@ -200,7 +200,7 @@ export async function getMyAverageReviewRating(username: string): Promise<string
   const response = await axios.get(`${API_BASE_URL}/reviews/username/${username}/average`);
   try{
     const data = await response.data;
-    const rating = data[0].avarage
+    const rating = data.avarage
     return rating;
   } catch (error) {
       throw new Error('Error fetching reviews average');
