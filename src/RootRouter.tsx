@@ -21,7 +21,7 @@ export default function RootRouter() {
         <Route element={<Home />} path='home' />
         <Route element={<SignIn />} path="sign-in" />
         <Route element={<SignUp />} path="sign-up" />
-        <Route element={<ProfileView />} path="username" /*change to ":username"*/ />
+        <Route element={<ProfileView />} path=":username" />
         <Route path="/movies" >
           <Route index element={<Movies />} />
           <Route element={<MovieView />} path=":movieId" />

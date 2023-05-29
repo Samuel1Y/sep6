@@ -76,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
             alt={currentUser.displayName || 'profile picture'}
             height="auto"
             width="auto"
-            onClick={() => navigate('/username')} //change to logged in user username
+            onClick={() => navigate('/'+currentUser.displayName)} //change to logged in user username
             style={{ 
                 cursor:'pointer',
                 alignSelf:'center',

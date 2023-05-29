@@ -3,15 +3,14 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MovieCard } from '../Components/MovieCard'
 import { MoviesData } from '../Mock/MoviesData'
-import { MovieWithouthDetails, getMovies } from '../db/db'
+import { MovieWithouthDetails, getMovies, searchMovies } from '../db/db'
 import { useAuth } from '../Contexts/AuthContext'
 
 
-function Movies() { //need to fix layout
+function Movies() {
 
   const [input, setInput] = React.useState('')
-  const [filteredList, setFilteredList] = React.useState<MovieWithouthDetails[] | any>(null)
-  const [movies, setMovies] = React.useState<MovieWithouthDetails[] | null>(null)
+  const [filteredList, setFilteredList] = React.useState<MovieWithouthDetails[] | null>(null)
 
   const navigate = useNavigate()
   const { currentUser } = useAuth()
@@ -23,10 +22,9 @@ function Movies() { //need to fix layout
         try {
           const moviesData = await getMovies();
           setFilteredList(moviesData)
-          setMovies(moviesData)
         } catch (error) {
           console.error(error);
-          setFilteredList(MoviesData)
+          //setFilteredList(MoviesData)
         }
       };
       fetchMovies()
@@ -40,8 +38,20 @@ function Movies() { //need to fix layout
   useEffect(() => {
     if(filteredList){
       setFilteredList(filteredList.filter(({ title }) => title.toLowerCase().includes(input.toLowerCase())))
+      if(filteredList.length === 0) 
+      {
+        const fetchMovie = async () => {
+          try {
+            const movieData = await searchMovies(input.toLowerCase())
+            setFilteredList(movieData);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        fetchMovie()
+      }
     }
-},[filteredList, input, movies])
+},[filteredList, input])
 
   return (
     <>
