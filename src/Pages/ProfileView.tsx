@@ -6,8 +6,7 @@ import { DefaultButton } from '../Components/DefaultButton'
 import { ReviewsData } from '../Mock/ReviewsData'
 import { ReviewCard } from '../Components/ReviewCard'
 import { MovieCard } from '../Components/MovieCard'
-import { MovieWithouthDetails } from '../db/db'
-import { MoviesData } from '../Mock/MoviesData'
+import { MovieWithouthDetails, Profile, followUser, getFavoriteListByUsername, getUserByUsername } from '../db/db'
 import { useAuth } from '../Contexts/AuthContext'
 
 
@@ -15,24 +14,32 @@ function ProfileView() {
 
 
     const [favoriteMovies, setFavoriteMovies] = React.useState<MovieWithouthDetails[] | null>(null)
+    const [user, setUser] = React.useState<Profile | null>(null)
+
 
     const navigate = useNavigate()
     const { pathname } = useLocation()
     const { currentUser } = useAuth()
+    const likeProfile = {
+      current_username: currentUser?.displayName || 'username',
+      liked_username: pathname.split('/')[1]
+    }
 
     useEffect(() => {
       if(currentUser)
       {
-        /* get user profile
-        const fetchUser = async () => {
+        const fetchUserData = async () => {
           try {
-            const userData = await getUserByUsername(parseInt(pathname.split('/')[1]));
+            const userData = await getUserByUsername(pathname.split('/')[1]);
+            const favoriteMoviesData = await getFavoriteListByUsername(pathname.split('/')[1]);
+            //need reviewsByUsername
             setUser(userData);
+            setFavoriteMovies(favoriteMoviesData)
           } catch (error) {
             console.error(error);
           }
         };
-        fetchUser();*/
+        fetchUserData()
       }
       else
       {
@@ -65,14 +72,14 @@ function ProfileView() {
         }}>
             <img
                 src="profile_picture.png"
-                alt={currentUser?.displayName || 'profile picture'}
+                alt="profile pic"
                 height="auto"
                 width="auto"
                 style={{ 
                     alignSelf:'center',
                     justifySelf:'center',
-                    maxHeight: '100%',
-                    maxWidth: '100%',
+                    maxHeight: '10rem',
+                    maxWidth: '10rem',
                     }}
                 />
                 <Title text={pathname.split('/')[1]} sx={{textAlign:'center'}} />
@@ -84,15 +91,13 @@ function ProfileView() {
             padding:'1rem'
         }}>
                 <Subtitle
-                text='Jake Sully lives with his newfound family formed on the extrasolar moon Pandora.
-                        Once a familiar threat returns to finish what was previously started, 
-                        Jake must work with Neytiri and the army of the Navi race to protect their home.'
+                text='dskds'
         sx={{textAlign:'start'}} />
         </Box>
         </Box>
         <DefaultButton
             label='Follow User'
-            onClick={() => console.log('follow')}
+            onClick={() => followUser(likeProfile)}
         />
         <Box
         sx={{
@@ -102,8 +107,8 @@ function ProfileView() {
             borderTop:'3px solid black',
             overflow:'auto'
         }}>
-        {MoviesData &&
-        MoviesData?.map((movie, index) => { //replace mock with real data
+        {favoriteMovies &&
+        favoriteMovies.map((movie, index) => {
               return (
                 <MovieCard
                   key={index}
@@ -111,7 +116,7 @@ function ProfileView() {
                   title={movie.title}
                   description={movie.overview}
                   picture={movie.image}
-                  onClick={() => navigate(`${5}`)} 
+                  onClick={() => navigate(`${movie.id}`)} 
                 />
               )
             })}
@@ -129,6 +134,7 @@ function ProfileView() {
               return (
                 <ReviewCard
                   key={index}
+                  movieId={review.movieId}
                   username={review.username}
                   profilePic= {review.profilePic}
                   reviewRating={review.reviewRating}

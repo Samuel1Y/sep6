@@ -4,6 +4,7 @@ import { DefaultButton } from '../Components/DefaultButton'
 import { useAuth } from '../Contexts/AuthContext'
 import { DefaultText, Title } from '../Components/Text'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { makeReview } from '../db/db'
 
 
 function MakeReview() {
@@ -28,7 +29,12 @@ function MakeReview() {
     setIsDisabled(true)
     if(review !== '' && rating !== '')
     {
-
+     const reviewData = {
+        movie_id: parseInt(pathname.split('/')[2]),
+        username: currentUser?.displayName || 'username',
+        description: review,
+        rating: parseInt(rating)}
+      makeReview(reviewData)
     }
     else
     {

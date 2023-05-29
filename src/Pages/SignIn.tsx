@@ -1,4 +1,4 @@
-import { Box, Card, FormControl, TextField, Typography } from '@mui/material'
+import { Box, Card, FormControl, TextField } from '@mui/material'
 import React from 'react'
 import { DefaultButton } from '../Components/DefaultButton'
 import { useAuth } from '../Contexts/AuthContext'
@@ -56,7 +56,9 @@ function SignIn() {
         <Title
         text='Sign In'
         sx={{
-          fontSize:'3rem'
+          fontSize:'3rem',
+          lineHeight:'3rem',
+          paddingBottom:'2rem'
         }}/>
         
 

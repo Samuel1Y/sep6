@@ -5,27 +5,35 @@ import { DefaultText, Subtitle, Title } from '../Components/Text'
 import { DefaultButton } from '../Components/DefaultButton'
 import { ReviewsData } from '../Mock/ReviewsData'
 import { ReviewCard } from '../Components/ReviewCard'
-import { MovieWithDetails, getMovieById } from '../db/db'
+import { MovieWithDetails, Review, addMovieToFavoriteList, getMovieById, getReviewsByMovie } from '../db/db'
 import { MoviesData } from '../Mock/MoviesData'
 import { useAuth } from '../Contexts/AuthContext'
 
 
 function MovieView() {
 
+    const [movie, setMovie] = useState<MovieWithDetails | null>(null)
+    const [reviews, setReviews] = React.useState<Review[] | null>(null)
     const navigate = useNavigate()
     const { pathname } = useLocation()
     const { currentUser } = useAuth()
 
-    const [movie, setMovie] = useState<MovieWithDetails | null>(null);
+    const likeMovie = {
+      likedMovie: parseInt(pathname.split('/')[2]),
+      username: currentUser?.displayName || 'username'
+    }
+
     useEffect(() => {
       if(currentUser)
       {
         const fetchMovie = async () => {
           try {
-            const movieData = await getMovieById(parseInt(pathname.split('/')[2]));
-            setMovie(movieData);
+            const movieData = await getMovieById(parseInt(pathname.split('/')[2]))
+            const reviewData = await getReviewsByMovie(parseInt(pathname.split('/')[2]))
+            setMovie(movieData)
+            setReviews(reviewData)
           } catch (error) {
-            console.error(error);
+            console.error(error)
           }
         };
         fetchMovie();
@@ -113,7 +121,7 @@ function MovieView() {
             />
             <DefaultButton
             label='Add to Favorite'
-            onClick={() => console.log('add to favorite')}
+            onClick={() => addMovieToFavoriteList(likeMovie)}
             />
         </Box>
         
@@ -125,14 +133,14 @@ function MovieView() {
                 md:'1fr',
             },
         }}>
-            {ReviewsData.map((review, index) => { //get reviews of the specific movie
+            {reviews && reviews.map((review, index) => {
               return (
                 <ReviewCard
                   key={index}
+                  movieId={review.movie_id}
                   username={review.username}
-                  profilePic= {review.profilePic}
-                  reviewRating={review.reviewRating}
-                  reviewText={review.reviewText}
+                  reviewRating={String(review.rating)}
+                  reviewText={review.description}
                 />
               )
             })}

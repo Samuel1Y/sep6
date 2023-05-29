@@ -2,33 +2,14 @@ import { Box, Card, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { DefaultButton } from '../Components/DefaultButton'
 import { useAuth } from '../Contexts/AuthContext'
-import { MovieCard } from '../Components/MovieCard'
 import { useNavigate } from 'react-router-dom'
-import { ReviewCard } from '../Components/ReviewCard'
-import { getMovieById, getMovies, MovieWithDetails, MovieWithouthDetails } from '../db/db';
 
 
 function Welcome() {
   const [isDisabled, setIsDisabled] = React.useState(false)
   const { logout, currentUser } = useAuth()
   const navigate = useNavigate()
-  const [movie, setMovie] = useState<MovieWithDetails | null>(null);
-  const [movies, setMovies] = useState<MovieWithouthDetails[] | null>(null);
 
-  
-  useEffect(() => {
-    const fetchMovie = async () => {
-      try {
-        const movieData = await getMovieById(550);
-        setMovie(movieData);
-        const moviesData = await getMovies();
-        setMovies(moviesData)
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchMovie();
-  }, []);
 
   useEffect(() => {
     if(!currentUser) {

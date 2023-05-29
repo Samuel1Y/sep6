@@ -5,10 +5,13 @@ import { useAuth } from '../Contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { ReviewCard } from '../Components/ReviewCard'
 import { ReviewsData } from '../Mock/ReviewsData'
+import { Review, getReviewsOfFollowers } from '../db/db'
 
 
 function Home() {
   const [isDisabled, setIsDisabled] = React.useState(false)
+  const [reviews, setReviews] = React.useState<Review[] | null>(null)
+
   const { logout, currentUser } = useAuth()
   const navigate = useNavigate()
 
@@ -16,17 +19,15 @@ function Home() {
   useEffect(() => {
     if(currentUser)
     {
-        /*
         const fetchReviews = async () => {
             try {
-            const reviewsData = await getReviewsOfFollowers(currentUser?.displayName);
+            const reviewsData = await getReviewsOfFollowers(currentUser.displayName || 'username');
             setReviews(reviewsData);
             } catch (error) {
             console.error(error);
             }
         };
         fetchReviews();
-        */
     }
     else
     {
@@ -41,12 +42,6 @@ function Home() {
     else setIsDisabled(true)
 },[currentUser])
 
-  const handleLogOut = () => {
-    setIsDisabled(true)
-    logout()
-    setTimeout(() => setIsDisabled(false), 1000)
-  }
-
   return (
     <Box
     sx={{
@@ -60,15 +55,14 @@ function Home() {
         maxHeight:'89vh',
         overflow:'auto'
     }}>
-        {ReviewsData.map((review, index) => {
+        {reviews && reviews.map((review, index) => {
               return (
                 <ReviewCard
                   key={index}
                   movieId={1}
                   username={review.username}
-                  profilePic= {review.profilePic}
-                  reviewRating={review.reviewRating}
-                  reviewText={review.reviewText}
+                  reviewRating={String(review.rating)}
+                  reviewText={review.description}
                 />
               )
             })}
