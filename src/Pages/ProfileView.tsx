@@ -33,7 +33,8 @@ function ProfileView() {
             const userData = await getUserByUsername(pathname.split('/')[1]);
             const favoriteMoviesData = await getFavoriteListByUsername(pathname.split('/')[1]);
             //need reviewsByUsername
-            setUser(userData);
+            setUser(userData)
+            console.log(user?.username)
             setFavoriteMovies(favoriteMoviesData)
           } catch (error) {
             console.error(error);
@@ -82,7 +83,7 @@ function ProfileView() {
                     maxWidth: '10rem',
                     }}
                 />
-                <Title text={currentUser?.displayName || 'username'} sx={{textAlign:'center'}} />
+                {user && <Title text={user.username || 'username'} sx={{textAlign:'center'}} />}
         </Box>
         <Box
         sx={{
@@ -91,7 +92,7 @@ function ProfileView() {
             padding:'1rem'
         }}>
                 <Subtitle
-                text={`age:/${user?.age}`}
+                text={`age:${user?.age}`}
         sx={{textAlign:'start'}} />
         </Box>
         </Box>

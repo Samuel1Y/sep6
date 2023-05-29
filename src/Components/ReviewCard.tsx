@@ -5,6 +5,8 @@ import { Box, Card, Modal, colors } from '@mui/material'
 import { DefaultText, Subtitle } from './Text'
 import { DefaultButton } from './DefaultButton'
 import { useNavigate } from 'react-router-dom'
+import { followUser } from '../db/db'
+import { useAuth } from '../Contexts/AuthContext'
 
 export const ReviewCard: React.FC<ReviewCardProps> = ({
     movieId,
@@ -16,6 +18,12 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
 
     const [open, setOpen] = React.useState(false)
     const navigate = useNavigate()
+    const { currentUser } = useAuth()
+
+    const likeProfile = {
+        current_username: currentUser?.displayName || 'username',
+        liked_username: username
+      }
 
 return (
     <>
@@ -87,7 +95,7 @@ return (
             paddingTop:'0.4rem',
         }}>
             <img
-            src="like_button.png"
+            src="profile_picture.png"
             alt="like"
             height="auto"
             width="auto"
@@ -169,14 +177,14 @@ return (
         }}>
         <DefaultButton
             label='Follow User'
-            onClick={() => console.log('follow')}
+            onClick={() => followUser(likeProfile)}
             sx={{
                 fontSize:'1rem'
             }}
         />
         <DefaultButton
             label='Go to profile page'
-            onClick={() => navigate('/username')} //change to username of review creator
+            onClick={() => navigate(`/${username}`)} //change to username of review creator
             sx={{
                 fontSize:'1rem'
             }}
