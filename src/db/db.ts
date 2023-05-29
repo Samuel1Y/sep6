@@ -172,7 +172,7 @@ export async function getReviewsByMovie(id: number): Promise<Review[]> {
     const data = await response.data;
     return data;
   } catch (error) {
-      throw new Error('Error fetching movies');
+      throw new Error('Error fetching reviews');
   }
 }
 
@@ -182,7 +182,28 @@ export async function getReviewsOfFollowers(username: string): Promise<Review[]>
     const data = await response.data;
     return data;
   } catch (error) {
-      throw new Error('Error fetching movies');
+      throw new Error('Error fetching reviews');
+  }
+}
+
+export async function getMyReviews(username: string): Promise<Review[]> {
+  const response = await axios.get(`${API_BASE_URL}/reviews/username/${username}/mine`);
+  try{
+    const data = await response.data;
+    return data;
+  } catch (error) {
+      throw new Error('Error fetching reviews');
+  }
+}
+
+export async function getMyAverageReviewRating(username: string): Promise<string> {
+  const response = await axios.get(`${API_BASE_URL}/reviews/username/${username}/average`);
+  try{
+    const data = await response.data;
+    const rating = data[0].avarage
+    return rating;
+  } catch (error) {
+      throw new Error('Error fetching reviews average');
   }
 }
 //************movies**********************/
