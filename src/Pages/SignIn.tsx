@@ -1,4 +1,4 @@
-import { Box, Card, FormControl, TextField, Typography } from '@mui/material'
+import { Box, Card, FormControl, TextField } from '@mui/material'
 import React from 'react'
 import { DefaultButton } from '../Components/DefaultButton'
 import { useAuth } from '../Contexts/AuthContext'
@@ -41,27 +41,24 @@ function SignIn() {
   }
 
   return (
-    <Box
-    sx={{
-      display:'flex',
-      justifyContent:'center',
-      alignItems:'center',
-      height:'100vh'
-    }}>
       <Card
       sx={{
         display:'flex',
-        minHeight:'25rem',
-        minWidth:'20rem',
+        height:'auto',
+        width:'20rem',
         flexDirection:'column',
         padding:'1rem',
+        margin:'0.5rem',
+        justifySelf:'center',
         justifyContent:'space-between'
 
       }}>
         <Title
         text='Sign In'
         sx={{
-          fontSize:'3rem'
+          fontSize:'3rem',
+          lineHeight:'3rem',
+          paddingBottom:'2rem'
         }}/>
         
 
@@ -103,7 +100,6 @@ function SignIn() {
       disabled={isDisabled}
       />
       </Card>
-   </Box>
   )
 }
 
