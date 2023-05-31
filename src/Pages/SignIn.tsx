@@ -27,7 +27,6 @@ function SignIn() {
         navigate('/')
       })
       .catch((error) => {
-        const errorCode = error.code;
         console.log(error.message);
         return error.message
       });

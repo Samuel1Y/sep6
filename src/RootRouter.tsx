@@ -13,7 +13,6 @@ import ProfileView from './Pages/ProfileView'
 import Home from './Pages/Home'
 
 export default function RootRouter() {
-  // add new routes here  
   return (
     <Routes>
       <Route path="/" element={<App />}>

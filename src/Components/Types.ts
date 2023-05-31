@@ -1,8 +1,5 @@
 export type ButtonProps = {
     label: string;
-    backgroundColor?: string;
-    backgroundColorHover?: string;
-    colorHover?: string;
     sx?: object;
     onClick?: (() => void) | ((event: React.MouseEvent<HTMLElement>) => void);
     disabled?: boolean;
@@ -11,7 +8,6 @@ export type ButtonProps = {
   export type TextProps = {
     text: string | undefined,
     sx?: object,
-    onClick?: () => void;
   }
 
   export type MovieCardProps = {

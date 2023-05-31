@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { ReviewCardProps } from './Types'
-import { Box, Card, Modal, colors } from '@mui/material'
+import { Box, Card, Modal } from '@mui/material'
 import { DefaultText, Subtitle } from './Text'
 import { DefaultButton } from './DefaultButton'
 import { useNavigate } from 'react-router-dom'
