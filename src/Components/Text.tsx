@@ -1,5 +1,3 @@
-/* eslint-disable react/function-component-definition */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as React from 'react'
 import Typography from '@mui/material/Typography'
 import { TextProps } from './Types'
@@ -33,9 +31,8 @@ export const Subtitle: React.FC<TextProps> = ({ text, sx }) => (
   </Typography>
 )
 
-export const DefaultText: React.FC<TextProps> = ({ text, sx, onClick }) => (
+export const DefaultText: React.FC<TextProps> = ({ text, sx }) => (
   <Typography
-    onClick={onClick}
     variant="subtitle1"
     sx={{
         fontSize: '1rem',

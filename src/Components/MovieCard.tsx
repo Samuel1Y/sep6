@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from '@mui/material/Button'
 
 import { MovieCardProps } from './Types'
 import { Box, Card } from '@mui/material'
@@ -38,7 +37,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
                 md:'13rem'
             },
             paddingBottom:'0.3rem',
-        }}>
+            }}>
             <img
                 src={picture}
                 alt={title}
