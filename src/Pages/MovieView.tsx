@@ -3,10 +3,8 @@ import { Box } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { DefaultText, Subtitle, Title } from '../Components/Text'
 import { DefaultButton } from '../Components/DefaultButton'
-import { ReviewsData } from '../Mock/ReviewsData'
 import { ReviewCard } from '../Components/ReviewCard'
 import { MovieWithDetails, Review, addMovieToFavoriteList, getMovieById, getReviewsByMovie } from '../db/db'
-import { MoviesData } from '../Mock/MoviesData'
 import { useAuth } from '../Contexts/AuthContext'
 
 
@@ -23,25 +21,25 @@ function MovieView() {
       username: currentUser?.displayName || 'username'
     }
 
-    useEffect(() => {
-      if(currentUser)
-      {
-        const fetchMovie = async () => {
-          try {
-            const movieData = await getMovieById(parseInt(pathname.split('/')[2]))
-            const reviewData = await getReviewsByMovie(parseInt(pathname.split('/')[2]))
-            setMovie(movieData)
-            setReviews(reviewData)
-          } catch (error) {
-            console.error(error)
-          }
-        };
-        fetchMovie();
-      }
-      else
-      {
-        navigate('/')
-      }
+useEffect(() => {
+    if(currentUser)
+    {
+      const fetchMovie = async () => {
+        try {
+          const movieData = await getMovieById(parseInt(pathname.split('/')[2]))
+          const reviewData = await getReviewsByMovie(parseInt(pathname.split('/')[2]))
+          setMovie(movieData)
+          setReviews(reviewData)
+        } catch (error) {
+          console.error(error)
+        }
+      };
+      fetchMovie();
+    }
+    else
+    {
+      navigate('/')
+    }
 }, []);
 
 

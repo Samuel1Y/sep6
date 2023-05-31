@@ -1,18 +1,15 @@
-import { Box, Card, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { DefaultButton } from '../Components/DefaultButton'
+import { Box } from '@mui/material'
+import React, { useEffect } from 'react'
 import { useAuth } from '../Contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { ReviewCard } from '../Components/ReviewCard'
-import { ReviewsData } from '../Mock/ReviewsData'
 import { Review, getReviewsOfFollowers } from '../db/db'
 
 
 function Home() {
-  const [isDisabled, setIsDisabled] = React.useState(false)
   const [reviews, setReviews] = React.useState<Review[] | null>(null)
 
-  const { logout, currentUser } = useAuth()
+  const { currentUser } = useAuth()
   const navigate = useNavigate()
 
   
@@ -35,13 +32,6 @@ function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    if(!currentUser) {
-      setIsDisabled(false)
-    }
-    else setIsDisabled(true)
-},[currentUser])
-
   return (
     <Box
     sx={{
@@ -55,7 +45,7 @@ function Home() {
         maxHeight:'89vh',
         overflow:'auto'
     }}>
-        {reviews && reviews.map((review, index) => {
+        {(reviews && reviews.length > 0) ? reviews.map((review, index) => {
               return (
                 <ReviewCard
                   key={index}
@@ -65,7 +55,15 @@ function Home() {
                   reviewText={review.description}
                 />
               )
-            })}
+            })
+            : <ReviewCard
+                  key={0}
+                  movieId={-1}
+                  username={'no followed users'}
+                  reviewRating={'0'}
+                  reviewText={'You are not following anyone, this is default review'}
+                />
+          }
     </Box>
   )
 }

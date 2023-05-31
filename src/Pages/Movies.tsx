@@ -2,7 +2,6 @@ import { Box, TextField } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MovieCard } from '../Components/MovieCard'
-import { MoviesData } from '../Mock/MoviesData'
 import { MovieWithouthDetails, getMovies, searchMovies } from '../db/db'
 import { useAuth } from '../Contexts/AuthContext'
 
@@ -24,7 +23,6 @@ function Movies() {
           setFilteredList(moviesData)
         } catch (error) {
           console.error(error);
-          //setFilteredList(MoviesData)
         }
       };
       fetchMovies()

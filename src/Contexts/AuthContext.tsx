@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { User, createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
+import { User, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
 import { auth } from '../firebase';
 
 interface AuthContextProps {
@@ -20,8 +20,6 @@ export const useAuth = () => useContext(AuthContext)
 export function AuthProvider( {children}: AuthProviderProps) {
 
     const [currentUser, setCurrentUser] = useState<User | null>(null)
-
-    const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
 
     useEffect(() => {
@@ -43,8 +41,8 @@ export function AuthProvider( {children}: AuthProviderProps) {
             return ''
           })
           .catch((error) => {
-            const errorCode = error.code;
-            console.log(error.message);
+            setError(error.code)
+            console.log(error.message)
             return error.message
           })
     }
@@ -56,8 +54,8 @@ export function AuthProvider( {children}: AuthProviderProps) {
             return ''
           })
           .catch((error) => {
-            const errorCode = error.code;
-            console.log(error.message);
+            setError(error.code)
+            console.log(error.message)
             return error.message
           });
     }

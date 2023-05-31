@@ -2,17 +2,12 @@ import React from 'react'
 import Button from '@mui/material/Button'
 
 import { ButtonProps } from './Types'
-import { colors } from '@mui/material'
-import { blue } from '@mui/material/colors'
 
 export const DefaultButton: React.FC<ButtonProps> = ({
   label,
   onClick,
   disabled,
   sx,
-  colorHover,
-  backgroundColor,
-  backgroundColorHover,
 }) => (
   <Button
     variant='contained'
